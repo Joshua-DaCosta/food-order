@@ -2,15 +2,16 @@ import React, { useRef, useState } from "react";
 import classes from "./Checkout.module.css";
 
 const isEmpty = (val) => val.trim() === "";
-const isSixChar = (val) => val.trim().length === 6;
+const isSixChar = (val) => val.replaceAll(/\s/g, "").length === 6;
 
 const Checkout = (props) => {
   const [formIsValid, setFormIsValid] = useState({
-      name: true,
-      street: true,
-      city: true,
-      postal: true
+    name: true,
+    street: true,
+    city: true,
+    postal: true,
   });
+
   const nameRef = useRef();
   const streetRef = useRef();
   const postalRef = useRef();
@@ -41,6 +42,12 @@ const Checkout = (props) => {
     if (!formIsValid) {
       return;
     }
+    props.submitOrder({
+      name: nameVal,
+      street: streetVal,
+      postal: postalVal,
+      city: cityVal,
+    });
   };
 
   return (
